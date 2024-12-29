@@ -5,7 +5,7 @@ Manually loading the CLR in an unmanaged process and using hardware breakpoints 
 
 To evade detection, this tool offers two approaches:
 
-- Fileless execution by hooking ```NtTraceEvent``` ```AmsiScan``` and thread-pooling functions using hardware breakpoints.
+- Patchless execution by hooking ```NtTraceEvent``` ```AmsiScan``` and thread-pooling functions using hardware breakpoints.
 - Patching the target function via an APC (Asynchronous Procedure Call).
 
 The CLR utilizes thread pooling to optimize the execution of .NET applications. Some calls to ```NtTraceEvent``` are made via the thread pool. 
@@ -17,11 +17,11 @@ It is also very important to hook ```NtCreateThreadEx``` because some assemblies
 
 https://github.com/GhostPack/SharpUp/blob/master/SharpUp/Program.cs#L53
 
-# Fileless method
+# Patchless method
 
 Set Hardware Breakpoints (HWBP) on the Following Functions:
 
- - ```AmsiScanBuffer``` : Redirect the instruction pointer (rip) to the return instruction, and set the rax register to AMSI_RESULT_CLEAN.
+- ```AmsiScanBuffer``` : Redirect the instruction pointer (rip) to the return instruction, and set the rax register to AMSI_RESULT_CLEAN.
 - ```NtTraceEvent``` : Redirect rip to the return instruction, and set the rax register to STATUS_SUCCESS.
 - ```NtCreateThreadEx``` : When the assembly creates a thread, the hook intercepts the function call and runs it via an indirect syscall. Once the thread is created, the HWBP is placed on the new thread, and rip is redirected to the return instruction.
 - ```NtCreateWorkerFactory``` : Modify the start address of the worker factory to a controlled function to place an HWBP on threads created by the worker factory. After setting the HWBP, jump back to the legitimate start address.
