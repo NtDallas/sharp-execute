@@ -59,7 +59,7 @@ ret
 Evading ETW is effective, but you might observe strange behavior during execution. If your process loads the CLR and ETW does not receive telemetry, this is not a normal aspect of assembly execution.
 
 - Consideration 2 :
-Loading the CLR from a managed process can appear suspicious. You can inject your assembly into a process where the CLR is already loaded.
+Loading the CLR from a unmanaged process can appear suspicious. You can inject your assembly into a process where the CLR is already loaded.
 
 - Consideration 3 :
 Patching a function is the most reliable way (100% certain) to ensure it will not be called, but it is also the most dangerous method for evading AMSI/ETW.
