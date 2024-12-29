@@ -13,7 +13,8 @@ To evade these calls, it is necessary to either control the thread pool or patch
 
 ![image info](./img/img1.png)
 
-It is also very important to hook ```NtCreateThreadEx``` because some assemblies, such as SharpUp, use multithreading. New threads created by these assemblies can generate telemetry via ``` NtTraceEvent``` .
+It is also very important to hook ```NtCreateThreadEx``` because some assemblies, such as SharpUp, use multithreading. New threads created by these assemblies can generate telemetry via ```NtTraceEvent```.
+
 https://github.com/GhostPack/SharpUp/blob/master/SharpUp/Program.cs#L53
 
 # Fileless method
